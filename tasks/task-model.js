@@ -4,7 +4,7 @@ module.exports = {
     add,
     find,
     findById,
-    // findTasksForProject,
+    findTasksForProject,
 };
 
 function add(task){
@@ -23,14 +23,19 @@ function findById(id){
     return db('tasks').where('id', id).first();
 }
 
-// function findTasksForProject(id){
-// //     select name, description, project_id, projects.name, projects.description from tasks
-// // join projects on tasks.project_id = projects.id;
-// return db('tasks').where("tasks.id",id)
-//         .join('projects', 'tasks.id', 'steps.scheme_id')
-//         .select('schemes.scheme_name', 'steps.step_number', 'steps.instructions')
+function findTasksForProject(id){
+    // select tasks.description, tasks.project_id, projects.name, projects.description from tasks
+// join projects on tasks.project_id = projects.id
+// where tasks.project_id = 1;
+    return db('tasks').where('tasks.project_id', id)
+        .select('tasks.description')
 
-// }
+
+
+
+}
+
 // return db('schemes').where("schemes.id",id)
 //         .join('steps', 'schemes.id', 'steps.scheme_id')
 //         .select('schemes.scheme_name', 'steps.step_number', 'steps.instructions')
+

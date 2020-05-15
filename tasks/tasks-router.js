@@ -1,6 +1,7 @@
 const express = require('express');
 
 const Task = require('./task-model.js');
+const Project = require('../projects/project-model.js');
 
 const router = express.Router();
 
@@ -44,8 +45,29 @@ router.post('/', (req, res) => {
   })
 
   //GET tasks for a specific project
-  router.get('/project/:id', (req,res) => {
-      project_id = req.params.id;
+  router.get('/project_tasks/:id', (req,res) => {
+    //   project_id = req.body.project_id; ?
+    //project_id = req.params.id; ?
+    Project.findById(req.params.id)
+    .then(project => {
+        // console.log('---project.id------>', project.id)
+        if(project){
+            // res.json(project)
+            Task.findTasksForProject(project.id)
+                .then(tasks => {
+                    console.log('tasks in task router------>', tasks)
+                    res.status(201).json({message: tasks})
+                })
+                .catch(error => {
+                    res.status(500).json({message: error})
+                })
+        }else{
+            res.status(404).json({message: "no project with given id"});
+        }
+    })
+    .catch(err => {
+        res.status(500).json({ message: "Failed to get tasks" });
+    });
   })
 
 module.exports = router;

@@ -32,6 +32,7 @@ router.post('/', (req, res) => {
     const { id } = req.params;
     Projects.findById(id)
         .then(project => {
+            console.log('---project.id------>', project.id)
             if(project){
                 res.json(project)
             }else{
