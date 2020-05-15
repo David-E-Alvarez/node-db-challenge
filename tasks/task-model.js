@@ -27,8 +27,9 @@ function findTasksForProject(id){
     // select tasks.description, tasks.project_id, projects.name, projects.description from tasks
 // join projects on tasks.project_id = projects.id
 // where tasks.project_id = 1;
-    return db('tasks').where('tasks.project_id', id)
-        .select('tasks.description')
+    return db('tasks')
+        .join('projects', 'tasks.project_id', '=', 'projects.id').where('tasks.project_id', id)
+        .select('tasks.description as task_description', 'projects.name as project_name', 'projects.description as projects_description')
 
 
 
