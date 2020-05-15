@@ -43,4 +43,9 @@ router.post('/', (req, res) => {
         });
   })
 
+  //GET tasks for a specific project
+  router.get('/project/:id', (req,res) => {
+      project_id = req.params.id;
+  })
+
 module.exports = router;
